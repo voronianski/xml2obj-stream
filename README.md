@@ -1,8 +1,12 @@
 # xml2object-stream
 
+> Interface to easily traverse through XML resources while mapping them to JavaScript objects.
+
 ## Install
 
-## Usage
+```bash
+npm install xml2obj-stream --save
+```
 
 ## Example
 
@@ -23,7 +27,7 @@
 **app.js**
 
 ```javascript
-var xml2obj = require('xml2object-stream');
+var xml2obj = require('xml2obj-stream');
 var request = require('request');
 
 var readStream = request('http://example.com/api/resource.xml');

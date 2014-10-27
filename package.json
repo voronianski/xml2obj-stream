@@ -1,5 +1,5 @@
 {
-  "name": "xml2object-stream",
+  "name": "xml2obj-stream",
   "version": "0.0.1",
   "description": "XML -> JavaScript object low memory streaming parser based on node-expat",
   "main": "index.js",
