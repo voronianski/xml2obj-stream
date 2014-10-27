@@ -1,0 +1,14 @@
+{
+  "name": "xml2object-stream",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dmitri Voronianski <dmitri.voronianski@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "node-expat": "^2.3.2"
+  }
+}
