@@ -1,6 +1,6 @@
 # xml2object-stream
 
-> Interface to easily traverse through XML resources while mapping them to JavaScript objects.
+> Interface to easily traverse through XML resources stream while mapping data to easy manageable JavaScript objects.
 
 ## Install
 
