@@ -2,7 +2,7 @@
 
 ![](http://img.shields.io/badge/Status-In%20Progress-green.svg?style=flat)
 
-> Interface to traverse through XML resources and mapping them to JavaScript objects.
+> Interface to traverse through XML resources and mapping them to JavaScript objects (allows custom transformations).
 
 ## Install
 

@@ -1,6 +1,12 @@
 var expat = require('node-expat');
 var events = require('events');
 
+var defaults = {
+	trim: true,
+	sanitize: false,
+	coerce: true
+};
+
 function Parser (readStream, options) {
 	var self = this;
 
@@ -9,11 +15,6 @@ function Parser (readStream, options) {
 	self.emmiter = new events.EventEmitter();
 
 	self.options = options || {};
-
-	self.ancestors = [];
-	self.elemObj = null;
-	self.elemName = null;
-	self.nodeName = null;
 
 	readStream.on('data', function (data) {
 		self.parser.parse(data.toString());
@@ -35,18 +36,20 @@ Parser.prototype = {
 	each: function (nodeName, nodeFunc) {
 		var self = this;
 
+		self.elemObj = null;
+		self.elemName = null;
+
 		self.parser.on('error', function (err) {
 			self.emmiter.emit('error', err);
 		});
-		self.parser.on('startElement', function (name, attrs) {
-			if (name === nodeName || self.elemObj) {
-				self.elemObj = {};
-				self.elemName = name;
 
-				console.log('START', name, attrs);
-				// if (name !== nodeName || !self.elemObj) {
-				// 	return;
-				// }
+		self.parser.on('startElement', function (name, attrs) {
+			var isSelectedElem = (name === nodeName);
+
+			if (isSelectedElem || self.elemObj) {
+				if (isSelectedElem) {
+					self.elemName = name;
+				}
 
 				if (self.options.coerce) {
 					for (var key in attrs) {
@@ -54,39 +57,18 @@ Parser.prototype = {
 					}
 				}
 
-				if (!(name in self.elemObj)) {
-					if (self.options.arrayNotation) {
-						self.elemObj[name] = [attrs];
-					} else {
-						self.elemObj[name] = attrs;
-					}
-				} else if (!Array.isArray(self.elemObj[name])) {
-					var newArray = [self.elemObj[name]];
-					newArray.push(attrs);
-					self.elemObj[name] = newArray;
-				} else {
-					self.elemObj[name].push(attrs);
-				}
-
-				self.ancestors.push(self.elemObj);
-
-				if (Array.isArray(self.elemObj[name])) {
-					self.elemObj = self.elemObj[name][self.elemObj[name].length - 1];
-				} else {
-					self.elemObj = self.elemObj[name];
-				}
-
-				// console.log('---');
-				// console.log(self.elemObj);
+				self.elemObj = {
+					$name: name,
+					$attrs: attrs,
+					$parent: self.elemObj
+				};
 			}
-
 		});
 
 		self.parser.on('text', function (data) {
-			if (!self.elemObj) {
+			if (!self.elemObj || !data) {
 				return;
 			}
-			console.log('TEXT', data);
 
 			if (self.options.trim) {
 				data = data.trim();
@@ -94,35 +76,29 @@ Parser.prototype = {
 			if (self.options.sanitize) {
 				data = self._sanitize(data);
 			}
-
-			self.elemObj.$t = self._coerce((self.elemObj.$t || '') + data);
+			self.elemObj.$text = self._coerce(data);
 		});
 
 		self.parser.on('endElement', function (name) {
 			if (!self.elemObj) {
 				return;
 			}
-			console.log('END', name);
-			console.log(self.elemObj);
 
-			if (self.elemName !== name) {
-				delete self.elemObj.$t;
+			if (self.elemName === name) {
+				var result = self._transformObject(self.elemObj);
+				eachNodeDelayed(result);
 			}
 
-			var ancestor = self.ancestors.pop();
-			if (('$t' in self.elemObj) && (Object.keys(self.elemObj).length === 1)) {
-				if (Array.isArray(ancestor[name])) {
-					ancestor[name].push(ancestor[name].pop().$t);
-				} else {
-					ancestor[name] = self.elemObj.$t;
+			var parent = self.elemObj.$parent;
+			if (parent) {
+				delete self.elemObj.$parent;
+				if (!parent.$children) {
+					parent.$children = [];
 				}
+				parent.$children.push(self.elemObj);
 			}
 
-			self.elemObj = ancestor;
-
-			if (nodeName === self.elemName) {
-				eachNodeDelayed(self.elemObj);
-			}
+			self.elemObj = parent;
 		});
 
 		function eachNodeDelayed (node) {
@@ -142,6 +118,29 @@ Parser.prototype = {
 
 	resume: function () {
 		this.readStream.resume();
+	},
+
+	setTransform: function (func) {
+		this._transformObject = func;
+	},
+
+	_transformObject: function (obj) {
+		var result = {};
+
+		mapper(obj);
+		obj.$children.forEach(mapper);
+
+		function mapper (o) {
+			if (o.$text) {
+				result[o.$name] = o.$text;
+			}
+
+			for (var attr in o.$attrs) {
+				result[o.$name+'-'+attr] = o.$attrs[attr];
+			}
+		}
+
+		return result;
 	},
 
 	_chars: {
@@ -173,9 +172,9 @@ Parser.prototype = {
 			return value;
 		}
 
-		value = Number(value);
+		var num = Number(value);
 		if (!isNaN(value)) {
-			return value;
+			return num;
 		}
 
 		value = value.toLowerCase();

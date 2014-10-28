@@ -12,14 +12,13 @@ describe('xml2obj parser', function () {
 		var readStream, parserStream, results = [];
 
 		before(function (done) {
-			readStream = fs.createReadStream(__dirname + '/example2.xml');
-			parserStream = new xml2obj.Parser(readStream, {coerce: false});
+			readStream = fs.createReadStream(__dirname + '/example.xml');
+			parserStream = new xml2obj.Parser(readStream, {coerce: true, trim: true});
 
 			parserStream.on('error', done);
 			parserStream.on('end', done);
 
-			parserStream.each('floor_action', function (item) {
-				console.dir('+++++++++++++');
+			parserStream.each('column', function (item) {
 				results.push(item);
 			});
 		});
