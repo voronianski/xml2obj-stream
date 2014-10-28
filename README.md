@@ -11,6 +11,18 @@
 npm install xml2obj-stream --save
 ```
 
+## API
+
+### `new xml2obj.Parser(readStream, [options])`
+
+Create an instance of parser to read from any [`readStream`](http://nodejs.org/api/stream.html#stream_class_stream_readable).
+
+### Options:
+
+- `coerce` - make type coercion (e.g. numbers and booleans present in attributes and element values are converted from string to its correspondent data types), default `true`
+- `trim` - remove leading and trailing whitespaces as well as line terminators in attributes and element values, default `true`
+- `sanitize` - sanitizes the such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
+
 ## Example
 
 **resource.xml**
@@ -49,18 +61,6 @@ console.dir(results);
 //   { name: 'uid', value: '12345', 'value-type': 'number' } 
 // ]
 ```
-
-## API
-
-### `new xml2obj.Parser(readStream, [options])`
-
-Create an instance of parser to read from any [`readStream`](http://nodejs.org/api/stream.html#stream_class_stream_readable).
-
-### Options:
-
-- `coerce` - make type coercion (e.g. numbers and booleans present in attributes and element values are converted from string to its correspondent data types), default `true`
-- `trim` - remove leading and trailing whitespaces as well as line terminators in attributes and element values, default `true`
-- `sanitize` - sanitizes the such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
 
 ## Custom Transformations
 
