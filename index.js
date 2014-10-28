@@ -77,7 +77,7 @@ Parser.prototype = {
 			if (self.options.sanitize) {
 				data = self._sanitize(data);
 			}
-			self.elemObj.$text = self._coerce(data);
+			self.elemObj.$text = self._coerce((self.elemObj.$text || '') + data);
 		});
 
 		self.parser.on('endElement', function (name) {
@@ -129,7 +129,6 @@ Parser.prototype = {
 		var result = {};
 
 		mapper(obj);
-		obj.$children.forEach(mapper);
 
 		function mapper (o) {
 			if (o.$text) {
@@ -137,6 +136,9 @@ Parser.prototype = {
 			}
 			for (var attr in o.$attrs) {
 				result[o.$name+'-'+attr] = o.$attrs[attr];
+			}
+			if (o.$children && Array.isArray(o.$children)) {
+				o.$children.forEach(mapper);
 			}
 		}
 
