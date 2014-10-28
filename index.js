@@ -1,12 +1,6 @@
 var expat = require('node-expat');
 var events = require('events');
 
-var defaults = {
-	trim: true,
-	sanitize: false,
-	coerce: true
-};
-
 function Parser (readStream, options) {
 	var self = this;
 
@@ -14,7 +8,14 @@ function Parser (readStream, options) {
 	self.parser = new expat.Parser('UTF-8');
 	self.emmiter = new events.EventEmitter();
 
-	self.options = options || {};
+	self.options = {
+		trim: true,
+		sanitize: false,
+		coerce: true
+	};
+	for (var opt in options) {
+		self.options[opt] = options[opt];
+	}
 
 	readStream.on('data', function (data) {
 		self.parser.parse(data.toString());
@@ -134,7 +135,6 @@ Parser.prototype = {
 			if (o.$text) {
 				result[o.$name] = o.$text;
 			}
-
 			for (var attr in o.$attrs) {
 				result[o.$name+'-'+attr] = o.$attrs[attr];
 			}
