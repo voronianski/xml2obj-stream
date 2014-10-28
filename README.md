@@ -1,5 +1,6 @@
 # xml2obj-stream
 
+[![build status](http://img.shields.io/travis/voronianski/xml2obj-stream.svg?style=flat)](https://travis-ci.org/voronianski/xml2obj-stream)
 ![](http://img.shields.io/badge/Status-In%20Progress-green.svg?style=flat)
 
 > Interface to traverse through XML resources and map them into JavaScript objects (allows custom transformations).
