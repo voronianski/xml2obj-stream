@@ -177,11 +177,11 @@ Parser.prototype = {
 			return num;
 		}
 
-		value = value.toLowerCase();
-		if (value === 'true') {
+		var _value = value.toLowerCase();
+		if (_value === 'true') {
 			return true;
 		}
-		if (value === 'false') {
+		if (_value === 'false') {
 			return false;
 		}
 
