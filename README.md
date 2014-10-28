@@ -54,7 +54,7 @@ console.dir(results);
 
 ### `new xml2obj.Parser(readStream, [options])`
 
-Create an instance of parser to read from any `readStream`.
+Create an instance of parser to read from any [`readStream`](http://nodejs.org/api/stream.html#stream_class_stream_readable).
 
 ### Options:
 
