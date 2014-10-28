@@ -48,7 +48,7 @@ console.dir(results);
 
 ### `new xml2obj.Parser(readStream, [options])`
 
-## Custom transformations
+## Custom Transformations
 
 ```javascript
 var xml2obj = require('xml2obj-stream');
