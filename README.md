@@ -41,9 +41,9 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
 
 ```javascript
 var xml2obj = require('xml2obj-stream');
-var request = require('request');
+var fs = require('fs');
 
-var readStream = request('resource.xml');
+var readStream = fs.createReadStream('resource.xml');
 var parseStream = new xml2obj.Parser(readStream);
 
 var results = [];
