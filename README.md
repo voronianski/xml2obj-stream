@@ -1,7 +1,7 @@
 # xml2obj-stream
 
 [![build status](http://img.shields.io/travis/voronianski/xml2obj-stream.svg?style=flat)](https://travis-ci.org/voronianski/xml2obj-stream)
-![](http://img.shields.io/badge/Status-In%20Progress-green.svg?style=flat)
+![](http://img.shields.io/badge/status-in%20progress-green.svg?style=flat)
 
 > Interface to traverse through XML resources and map them into JavaScript objects (allows custom transformations).
 
@@ -40,9 +40,14 @@ parseStream.each('column', function (item) {
 });
 
 console.dir(results);
-// 
-//[
-//]
+// outputs ->
+// [ 
+//   { name: 'dodo', value: 'bird', 'value-type': 'string' },
+//   { name: 'mighty', value: 'boosh', 'value-type': 'string' },
+//   { name: 'crack', value: 'fox', 'value-type': 'string' },
+//   { name: 'foo', value: 'true', 'value-type': 'boolean' },
+//   { name: 'uid', value: '12345', 'value-type': 'number' } 
+// ]
 ```
 
 ## API
@@ -50,6 +55,17 @@ console.dir(results);
 ### `new xml2obj.Parser(readStream, [options])`
 
 ## Custom Transformations
+
+It's possible to provide your own function to deal with `_proto` from xml object. Its' structure consists of several properties to deal with:
+
+```javascript
+{
+    $name: '',
+    $attrs: {},
+    $text: '',
+    $children: ''
+}
+```
 
 ```javascript
 var xml2obj = require('xml2obj-stream');

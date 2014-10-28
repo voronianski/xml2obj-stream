@@ -28,6 +28,7 @@ describe('xml2obj parser', function () {
 		});
 
 		it('should have nice items as objects', function () {
+			console.dir(results);
 			results.forEach(function (result) {
 				result.should.be.an.Object.and.have.keys('name', 'value', 'value-type');
 			});
