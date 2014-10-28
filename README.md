@@ -54,6 +54,12 @@ console.dir(results);
 
 ### `new xml2obj.Parser(readStream, [options])`
 
+Options:
+
+- `coerce`
+- `trim`
+- `sanitize`
+
 ## Custom Transformations
 
 It's possible to provide your own function to deal with `_proto` from xml object. Its' structure consists of several properties to deal with:
@@ -63,7 +69,7 @@ It's possible to provide your own function to deal with `_proto` from xml object
     $name: '',
     $attrs: {},
     $text: '',
-    $children: ''
+    $children: []
 }
 ```
 
