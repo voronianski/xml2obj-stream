@@ -15,15 +15,13 @@ npm install xml2obj-stream --save
 **resource.xml**
 
 ```xml
-<root>
-    <collection>
-        <item>...</item>
-        <item>...</item>
-        <item>...</item>
-        <item>...</item>
-        <item>...</item>
-    </collection>
-</root>
+<doc>
+    <column><name>dodo</name><value type="string">bird</value></column>
+    <column><name>mighty</name><value type="string">boosh</value></column>
+    <column><name>crack</name><value type="string">fox</value></column>
+    <column><name>foo</name><value type="string">bar</value></column>
+    <column><name>uid</name><value type="number">12345</value></column>
+</doc>
 ```
 
 **app.js**
@@ -32,18 +30,41 @@ npm install xml2obj-stream --save
 var xml2obj = require('xml2obj-stream');
 var request = require('request');
 
-var readStream = request('http://example.com/api/resource.xml');
-var parseStream = new xml2obj.Parser(readStream, {coerce: true});
+var readStream = request('resource.xml');
+var parseStream = new xml2obj.Parser(readStream);
 
 var results = [];
-parseStream.each('item', function (item) {
+parseStream.each('column', function (item) {
     results.push(item);
 });
+
+console.dir(results);
+// 
+//[
+//]
 ```
 
 ## API
 
 ### `new xml2obj.Parser(readStream, [options])`
+
+## Custom transformations
+
+```javascript
+var xml2obj = require('xml2obj-stream');
+var request = require('request');
+
+var readStream = request('http://example.com/api/resource.xml');
+var parseStream = new xml2obj.Parser(readStream, {sanitize: true});
+
+var results = [];
+parseStream.setTransform(function (_proto) {
+    // map proto to your needs
+})
+parseStream.each('item', function (item) {
+    results.push(item);
+});
+```
 
 ## References
 

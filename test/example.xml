@@ -1,7 +1,7 @@
 <doc>
-	<column><name>dodo</name><value type="string">bird</value></column>
-	<column><name>foo</name><value type="string">bar</value></column>
-	<column><name>foo2</name><value type="string">bar</value></column>
-	<column><name>bar</name><value type="string">foo</value></column>
-	<column><name>uid</name><value type="number">12345</value></column>
+    <column><name>dodo</name><value type="string">bird</value></column>
+    <column><name>mighty</name><value type="string">boosh</value></column>
+    <column><name>crack</name><value type="string">fox</value></column>
+    <column><name>foo</name><value type="boolean">true</value></column>
+    <column><name>uid</name><value type="number">12345</value></column>
 </doc>
