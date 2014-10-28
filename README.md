@@ -1,5 +1,7 @@
 # xml2obj-stream
 
+![](http://img.shields.io/badge/Status-In%20Progress-green.svg?style=flat)
+
 > Interface to easily traverse through XML resources stream while mapping data to easy manageable JavaScript objects.
 
 ## Install
