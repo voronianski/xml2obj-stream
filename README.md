@@ -54,6 +54,8 @@ Check proto of the `<value>` tag:
     $attrs: { 
         type: 'string' 
     },
+
+    // parent element object
     $parent: {
         $name: 'column',
 
