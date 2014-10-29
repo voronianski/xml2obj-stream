@@ -119,15 +119,17 @@ parseStream.each('column', function (item) {
     results.push(item);
 });
 
-console.dir(results);
-// outputs ->
-// [ 
-//   { name: 'dodo', value: 'bird', 'value-type': 'string' },
-//   { name: 'mighty', value: 'boosh', 'value-type': 'string' },
-//   { name: 'crack', value: 'fox', 'value-type': 'string' },
-//   { name: 'foo', value: true, 'value-type': 'boolean' },
-//   { name: 'uid', value: 12345, 'value-type': 'number' } 
-// ]
+parseStream.on('end', function () {
+    console.dir(results);
+    // outputs ->
+    // [ 
+    //   { name: 'dodo', value: 'bird', 'value-type': 'string' },
+    //   { name: 'mighty', value: 'boosh', 'value-type': 'string' },
+    //   { name: 'crack', value: 'fox', 'value-type': 'string' },
+    //   { name: 'foo', value: true, 'value-type': 'boolean' },
+    //   { name: 'uid', value: 12345, 'value-type': 'number' } 
+    // ]
+});
 ```
 
 ### Custom transformation
@@ -175,13 +177,15 @@ parseStream.each('floor_action', function (item) {
     results.push(item);
 });
 
-console.dir(results);
-// outputs ->
-// [{ 
-//  'act-id': 'H38310',
-//  'update-date-time': '20130628T11:24',
-//  'for-search': '20130628T11:22:19' 
-// }]
+parseStream.on('end', function () {
+    console.dir(results);
+    // outputs ->
+    // [{ 
+    //  'act-id': 'H38310',
+    //  'update-date-time': '20130628T11:24',
+    //  'for-search': '20130628T11:22:19' 
+    // }]
+});
 ```
 
 ## Issues
