@@ -3,7 +3,7 @@
 [![build status](http://img.shields.io/travis/voronianski/xml2obj-stream.svg?style=flat)](https://travis-ci.org/voronianski/xml2obj-stream)
 ![](http://img.shields.io/badge/status-in%20progress-green.svg?style=flat)
 
-> Interface to traverse through XML resources and map them into JavaScript objects (allows custom transformations).
+> Interface to iterate through XML resources and map them into JavaScript objects (allows custom transformations).
 
 ## Install
 
@@ -58,17 +58,23 @@ You're able to manage custom transform on the element if default one doesn't sui
 }
 ```
 
+It's required 
+
 ### `on('event', callback)`
 
 Bind `callback` function to one of the following read stream events - `'error', 'end', 'close'`.
 
 ### `pause()`
 
+Pause the read stream.
+
 ### `resume()`
 
-## Example
+Resume the read stream.
 
-#### Default transformation
+## Examples
+
+### Default
 
 **resource.xml**
 
@@ -93,6 +99,7 @@ var parseStream = new xml2obj.Parser(readStream);
 
 var results = [];
 parseStream.each('column', function (item) {
+    // do something with item
     results.push(item);
 });
 
@@ -107,11 +114,7 @@ console.dir(results);
 // ]
 ```
 
----
-
-#### Custom transformation
-
-It's possible to provide your own function to deal with `_proto` from xml object. Its' structure consists of several properties to deal with:
+### Custom transform
 
 **resource.xml**
 
@@ -120,7 +123,7 @@ It's possible to provide your own function to deal with `_proto` from xml object
     <floor_action act-id="H38310" update-date-time="20130628T11:24">
         <action_time for-search="20130628T11:22:19">11:22:19 A.M. -</action_time>
         <action_item>H.R. 2231</action_item>
-        <action_description>Motion to reconsider laid on the table Agreed to without objection.</action_description>
+        <action_description><p>Motion to reconsider laid on the table Agreed to without objection.p</action_description>
     </floor_action>
 </actions>
 ```
@@ -136,7 +139,8 @@ var parseStream = new xml2obj.Parser(readStream, {sanitize: true});
 
 var results = [];
 parseStream.setTransform(function (_proto) {
-    // map proto to your needs
+    // map `_proto` to your needs
+
 })
 parseStream.each('item', function (item) {
     results.push(item);
