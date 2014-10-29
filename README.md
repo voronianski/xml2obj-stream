@@ -29,7 +29,7 @@ Executes `iterator` function on every `'element'` inside XML resource. Iterator 
 
 **Default transformation produces an object that follows such rules:**
 
-- each `<tag>` becomes **1 object** (including it's children, their attributes etc.), e.g. `<tag><id>12345</id><name>foo</name></child</tag>` turns to `{id: 12345, name: 'foo'}`
+- each `<tag>` becomes **1 object** (including it's children, their attributes etc.), e.g. `<tag><child><id>12345</id><name>foo</name></child></tag>` turns to `{id: 12345, name: 'foo'}`
 - element's attributes like `<tag foo="bar">text</tag>` become properties of the object prefixed with element's name - `{'tag': 'text', 'tag-foo': 'bar'}`
 
 ### `setTransformation(func)`
