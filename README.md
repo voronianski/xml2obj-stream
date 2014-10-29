@@ -32,9 +32,9 @@ Executes `iterator` function on every `'element'` inside XML resource. Iterator 
 - each `<tag>` becomes **1 object** (including it's children, their attributes etc.)
 - element's attributes like `<tag foo="bar">text</tag>` become properties of the object prefixed with element's name - `{'tag': 'text', 'tag-foo': 'bar'}`
 
-### `setTranform(func)`
+### `setTransformation(func)`
 
-You're able to create custom transformation on the element if default one doesn't suit you. Provided `func` receives **proto** object of the following structure as the only argument, example :
+You're able to manage custom transform on the element if default one doesn't suit you. Provided `func` receives **proto** object as the only argument. It has the following structure:
 
 ```xml
 <column>

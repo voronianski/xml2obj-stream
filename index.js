@@ -121,7 +121,7 @@ Parser.prototype = {
         this.readStream.resume();
     },
 
-    setTransform: function (func) {
+    setTransformation: function (func) {
         this._transformObject = func;
     },
 
