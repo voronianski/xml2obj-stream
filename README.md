@@ -10,12 +10,6 @@
 npm install xml2obj-stream --save
 ```
 
-If you're on Windows and have problems with instalation please check this troubleshoot links of `node-expat`(http://node-xmpp.github.io/doc/nodeexpat.html):
-
-- dependencies for node-gyp https://github.com/TooTallNate/node-gyp#installation
-
-- see https://github.com/node-xmpp/node-expat/issues/78 if you are getting errors about not finding `nan.h`.
-
 ## API
 
 ### `new xml2obj.Parser(readStream, [options])`
@@ -188,6 +182,14 @@ console.dir(results);
 //  'for-search': '20130628T11:22:19' 
 // }]
 ```
+
+## Issues
+
+If you're on Windows and have problems with instalation please check this troubleshoot links of [`node-expat`](http://node-xmpp.github.io/doc/nodeexpat.html):
+
+- dependencies for node-gyp https://github.com/TooTallNate/node-gyp#installation
+
+- see https://github.com/node-xmpp/node-expat/issues/78 if you are getting errors about not finding `nan.h`.
 
 ## References
 
