@@ -1,6 +1,7 @@
 # xml2obj-stream
 
 [![build status](http://img.shields.io/travis/voronianski/xml2obj-stream.svg?style=flat)](https://travis-ci.org/voronianski/xml2obj-stream)
+[![npm version](http://img.shields.io/npm/v/xml2obj-stream.svg?style=flat)](https://www.npmjs.org/package/xml2obj-stream)
 
 > Interface to iterate through XML resources and map them into JavaScript objects (allows custom transformations).
 
