@@ -58,13 +58,17 @@ You're able to manage custom transform on the element if default one doesn't sui
 }
 ```
 
-### `on(event, callback)`
+### `on('event', callback)`
+
+Bind `callback` function to one of the following read stream events - `'error', 'end', 'close'`.
 
 ### `pause()`
 
 ### `resume()`
 
 ## Example
+
+#### Default transformation
 
 **resource.xml**
 
@@ -103,9 +107,25 @@ console.dir(results);
 // ]
 ```
 
-## Custom Transformations
+---
+
+#### Custom transformation
 
 It's possible to provide your own function to deal with `_proto` from xml object. Its' structure consists of several properties to deal with:
+
+**resource.xml**
+
+```xml
+<actions>
+    <floor_action act-id="H38310" update-date-time="20130628T11:24">
+        <action_time for-search="20130628T11:22:19">11:22:19 A.M. -</action_time>
+        <action_item>H.R. 2231</action_item>
+        <action_description>Motion to reconsider laid on the table Agreed to without objection.</action_description>
+    </floor_action>
+</actions>
+```
+
+**app.js**
 
 ```javascript
 var xml2obj = require('xml2obj-stream');
