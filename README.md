@@ -23,6 +23,16 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
 - `trim` - remove leading and trailing whitespaces as well as line terminators in attributes and element values, default `true`
 - `sanitize` - sanitizes the such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
 
+### `each(element, iterator)`
+
+### `setTranform(iterator)`
+
+### `on(event, callback)`
+
+### `pause()`
+
+### `resume()`
+
 ## Example
 
 **resource.xml**
