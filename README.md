@@ -43,7 +43,7 @@ You're able to manage custom transform on the element if default one doesn't sui
 </column>
 ```
 
-Check proto of the `<value>` tag:
+Check proto object of the `<value>` tag:
 
 ```javascript
 {
