@@ -1,7 +1,6 @@
 # xml2obj-stream
 
 [![build status](http://img.shields.io/travis/voronianski/xml2obj-stream.svg?style=flat)](https://travis-ci.org/voronianski/xml2obj-stream)
-![](http://img.shields.io/badge/status-in%20progress-green.svg?style=flat)
 
 > Interface to iterate through XML resources and map them into JavaScript objects (allows custom transformations).
 
@@ -139,7 +138,7 @@ console.dir(results);
     <floor_action act-id="H38310" update-date-time="20130628T11:24">
         <action_time for-search="20130628T11:22:19">11:22:19 A.M. -</action_time>
         <action_item>H.R. 2231</action_item>
-        <action_description><p>Motion to reconsider laid on the table Agreed to without objection.p</action_description>
+        <action_description>Motion to reconsider laid on the table Agreed to without objection.</action_description>
     </floor_action>
 </actions>
 ```
@@ -151,17 +150,37 @@ var xml2obj = require('xml2obj-stream');
 var request = require('request');
 
 var readStream = request('http://example.com/api/resource.xml');
-var parseStream = new xml2obj.Parser(readStream, {sanitize: true});
+var parseStream = new xml2obj.Parser(readStream);
 
 var results = [];
 parseStream.setTransformation(function (_proto) {
-    // map `_proto` to your needs
+    // map `_proto` to your needs here
+    // e.g. take only attributes of every tag
+    var obj = {};
 
+    mapper(_proto);
+    function mapper (o) {
+        for (var attr in o.$attrs) {
+            obj[attr] = o.$attrs[attr];
+        }
+        if (Array.isArray(o.$children)) {
+            o.$children.forEach(mapper);
+        }
+    }
 
-})
-parseStream.each('item', function (item) {
+    return obj;
+});
+parseStream.each('floor_action', function (item) {
     results.push(item);
 });
+
+console.dir(results);
+// outputs ->
+// [{ 
+//  'act-id': 'H38310',
+//  'update-date-time': '20130628T11:24',
+//  'for-search': '20130628T11:22:19' 
+// }]
 ```
 
 ## References
