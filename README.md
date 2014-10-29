@@ -23,9 +23,40 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
 - `trim` - remove leading and trailing whitespaces as well as line terminators in attributes and element values, default `true`
 - `sanitize` - sanitizes the such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
 
-### `each(element, iterator)`
+### `each('element', iterator)`
 
-### `setTranform(iterator)`
+Executes `iterator` function on every `'element'` inside XML resource. Iterator receives element that is already tranformed into object.
+
+**Default transformation produces an object that follows such rules:**
+
+- each `<tag>` becomes **1 object** (including it's children, their attributes etc.)
+- element's attributes like `<tag foo="bar">text</tag>` become properties of the object prefixed with element's name - `{'tag': 'text', 'tag-foo': 'bar'}`
+
+### `setTranform(func)`
+
+You're able to create custom transformation on the element if default one doesn't suit you. Provided `func` receives **proto** object of the following structure as the only argument, example :
+
+```xml
+<column>
+    <name>dodo</name>
+    <value type="string">bird</value> <!--  -->
+</column>
+```
+
+```javascript
+{
+    $name: 'value', // name of the element
+    $text: 'bird', // content of the element
+    $attrs: {
+        type: 'string' // hash-map of attributes if they are present
+    },
+    $parent: {
+        $name: 'column',
+        $children: [...]
+    },
+    $children: [] // array of children objects if they are present
+}
+```
 
 ### `on(event, callback)`
 
@@ -42,7 +73,7 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
     <column><name>dodo</name><value type="string">bird</value></column>
     <column><name>mighty</name><value type="string">boosh</value></column>
     <column><name>crack</name><value type="string">fox</value></column>
-    <column><name>foo</name><value type="string">bar</value></column>
+    <column><name>foo</name><value type="boolean">true</value></column>
     <column><name>uid</name><value type="number">12345</value></column>
 </doc>
 ```
@@ -67,23 +98,14 @@ console.dir(results);
 //   { name: 'dodo', value: 'bird', 'value-type': 'string' },
 //   { name: 'mighty', value: 'boosh', 'value-type': 'string' },
 //   { name: 'crack', value: 'fox', 'value-type': 'string' },
-//   { name: 'foo', value: 'true', 'value-type': 'boolean' },
-//   { name: 'uid', value: '12345', 'value-type': 'number' } 
+//   { name: 'foo', value: true, 'value-type': 'boolean' },
+//   { name: 'uid', value: 12345, 'value-type': 'number' } 
 // ]
 ```
 
 ## Custom Transformations
 
 It's possible to provide your own function to deal with `_proto` from xml object. Its' structure consists of several properties to deal with:
-
-```javascript
-{
-    $name: '',
-    $attrs: {},
-    $text: '',
-    $children: []
-}
-```
 
 ```javascript
 var xml2obj = require('xml2obj-stream');
