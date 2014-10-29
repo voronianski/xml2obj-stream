@@ -25,7 +25,7 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
 
 ### `each('element', iterator)`
 
-Executes `iterator` function on every `'element'` inside XML resource. Iterator receives element that is already tranformed into object.
+Executes `iterator` function on every `'element'` inside XML resource. Iterator receives an element that is already tranformed into object.
 
 **Default transformation produces an object that follows such rules:**
 
@@ -34,31 +34,45 @@ Executes `iterator` function on every `'element'` inside XML resource. Iterator 
 
 ### `setTransformation(func)`
 
-You're able to manage custom transform on the element if default one doesn't suit you. Provided `func` receives **proto** object as the only argument. It has the following structure:
+You're able to manage custom transform on the element if default one doesn't suit you. Provided `func` receives **proto** object as the only argument. It has the following structure, example:
 
 ```xml
 <column>
     <name>dodo</name>
-    <value type="string">bird</value> <!--  -->
+    <value type="string">bird</value>
 </column>
 ```
+
+Check proto of the `<value>` tag:
 
 ```javascript
 {
     $name: 'value', // name of the element
     $text: 'bird', // content of the element
-    $attrs: {
-        type: 'string' // hash-map of attributes if they are present
+
+    // hash-map of attributes if they are present
+    $attrs: { 
+        type: 'string' 
     },
     $parent: {
         $name: 'column',
-        $children: [...]
-    },
-    $children: [] // array of children objects if they are present
+
+        // array of children objects if they are present
+        $children: [{
+            $name: 'name',
+            $text: 'dodo'
+        }, {
+            $name: 'value',
+            $text: 'bird',
+            $attrs: { 
+                type: 'string' 
+            }
+        }]
+    }
 }
 ```
 
-It's required 
+It's required for transform function to return some value. It will be used as an argument for [each](https://github.com/voronianski/xml2obj-stream#eachelement-iterator) iterator function.
 
 ### `on('event', callback)`
 
@@ -114,7 +128,7 @@ console.dir(results);
 // ]
 ```
 
-### Custom transform
+### Custom transformation
 
 **resource.xml**
 
@@ -138,8 +152,9 @@ var readStream = request('http://example.com/api/resource.xml');
 var parseStream = new xml2obj.Parser(readStream, {sanitize: true});
 
 var results = [];
-parseStream.setTransform(function (_proto) {
+parseStream.setTransformation(function (_proto) {
     // map `_proto` to your needs
+
 
 })
 parseStream.each('item', function (item) {
