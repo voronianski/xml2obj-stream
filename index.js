@@ -2,6 +2,10 @@ var expat = require('node-expat');
 var events = require('events');
 
 function Parser (readStream, options) {
+    if (!(this instanceof Parser)) {
+        return new Parser(readStream, options);
+    }
+
     var self = this;
 
     self.readStream = readStream;
