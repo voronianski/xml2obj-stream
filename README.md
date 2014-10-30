@@ -21,7 +21,7 @@ Create an instance of parser to read from any [`readStream`](http://nodejs.org/a
 
 - `coerce` - make type coercion (e.g. numbers and booleans present in attributes and element values are converted from string to its correspondent data types), default `true`
 - `trim` - remove leading and trailing whitespaces as well as line terminators in attributes and element values, default `true`
-- `sanitize` - sanitizes the such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
+- `sanitize` - sanitizes such characters as `<, >, (, ), #, &, ", '` present in element values, default `false`
 
 ### `each('element', iterator)`
 
@@ -58,7 +58,8 @@ Check proto object of the `<value>` tag:
     // parent element object
     $parent: {
         $name: 'column',
-
+        $parent: null,
+        
         // array of children objects if they are present
         $children: [{
             $name: 'name',
