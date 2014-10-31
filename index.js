@@ -174,7 +174,7 @@ Parser.prototype = {
     },
 
     _coerce: function (value) {
-        if (!this.options.coerce || value.trim() === '') {
+        if (!this.options.coerce || value.trim && value.trim() === '') {
             return value;
         }
 
