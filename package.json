@@ -1,10 +1,14 @@
 {
   "name": "xml2obj-stream",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "(XML -> JavaScript Object) low memory streaming parser based on node-expat C bindings",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha ./test/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/voronianski/xml2obj-stream"
   },
   "keywords": ["XML", "JSON", "JavaScript", "Object", "parser", "libexpat", "node", "readStream"],
   "author": "Dmitri Voronianski <dmitri.voronianski@gmail.com>",
